@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vintage Leather Book</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Playfair+Display+SC:wght@700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#e6d9c8);
+  overflow:hidden;
+  font-family:'Crimson Text',serif;
+}
+.gold-foil{
+  font-family:'Playfair Display SC', serif;
+  font-size:3.5rem;
+  letter-spacing:3px;
+  text-transform:uppercase;
+
+  /* Gold foil gradient */
+  background:
+    linear-gradient(
+      120deg,
+      #7a5a12 0%,
+      #d4af37 15%,
+      #fff1a8 30%,
+      #d4af37 45%,
+      #9c7c19 60%,
+      #f8e37a 75%,
+      #b08d1a 100%
+    );
+  background-size:200% auto;
+
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+
+  /* Emboss depth */
+  text-shadow:
+    1px 1px 0 rgba(255,255,255,0.4),
+   -1px -1px 0 rgba(0,0,0,0.35),
+    2px 2px 6px rgba(0,0,0,0.6);
+
+  position:relative;
+}
+
+.cover .gold-foil{
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.6));
+}
+
+/* Shine sweep animation */
+.gold-foil::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255,255,255,0.7) 45%,
+      transparent 60%
+    );
+  transform:translateX(-120%);
+  animation:foilShine 4s infinite;
+}
+
+@keyframes foilShine{
+  0%{transform:translateX(-120%)}
+  50%{transform:translateX(120%)}
+  100%{transform:translateX(120%)}
+}
+
+/* Book Container */
+.book-container{perspective:2000px;z-index:10;}
+.book{
+  width:800px;height:600px;
+  display:flex;
+  position:relative;
+  transform-style:preserve-3d;
+  background:#fff;
+  box-shadow:
+    0 10px 20px rgba(0,0,0,.3),
+    6px 6px 0 #d6c1a8,
+    12px 12px 0 #cbb597;
+  transition:.6s;
+}
+.book.opened{
+  box-shadow:
+    0 15px 30px rgba(0,0,0,.25),
+    10px 10px 0 #fff8f0,
+    20px 20px 0 #e6d4b5;
+}
+
+/* Layers for depth */
+.layer{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:linear-gradient(145deg,#fdf4e7,#f0e0c8);
+  box-shadow:inset -5px 0 10px rgba(0,0,0,0.2);
+  z-index:0; /* behind pages */
+}
+.layer:nth-child(1){transform:translateX(3px);}
+.layer:nth-child(2){transform:translateX(6px);}
+.layer:nth-child(3){transform:translateX(9px);}
+
+/* ===============================
+   VINTAGE LEATHER BOOK COVER
+   =============================== */
+
+.cover{
+  position:absolute;
+  inset:0;
+  z-index:20;
+  cursor:pointer;
+  transform-origin:left;
+  transition:transform 1s cubic-bezier(.6,.04,.3,1);
+  backface-visibility:hidden;
+
+  /* Leather base */
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,0.12), transparent 55%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,0,0,0.15) 0 2px,
+      transparent 2px 5px
+    ),
+    linear-gradient(
+      135deg,
+      #7a3e1c,
+      #a0532c,
+      #5b2a13
+    );
+
+  border:3px solid #3b0b14;
+  box-shadow:
+    inset 0 0 55px rgba(0,0,0,0.6),
+    inset 0 0 10px rgba(0,0,0,0.8);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+
+  overflow:hidden;
+}
+
+/* ===============================
+   LEATHER GRAIN (PORES)
+   =============================== */
+.cover::after{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+    repeating-radial-gradient(
+      circle at 20% 30%,
+      rgba(0,0,0,0.08) 0 1px,
+      transparent 1px 3px
+    ),
+    repeating-radial-gradient(
+      circle at 70% 60%,
+      rgba(255,255,255,0.04) 0 1px,
+      transparent 1px 2px
+    );
+
+  mix-blend-mode:multiply;
+  opacity:0.85;
+  pointer-events:none;
+}
+
+/* ===============================
+   STAMPED BORDER FRAME
+   =============================== */
+.cover::before{
+  content:"";
+  position:absolute;
+  inset:18px;
+
+  border:2px dashed rgba(255,215,120,0.35);
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,0.7),
+    0 0 6px rgba(255,215,120,0.15);
+
+  pointer-events:none;
+}
+
+/* ===============================
+   DEBOSSED GOLD TITLE
+   =============================== */
+.gold-deboss{
+  font-family:'Playfair Display SC', serif;
+  font-size:3.8rem;
+  letter-spacing:3px;
+  text-transform:uppercase;
+
+  background:
+    linear-gradient(
+      120deg,
+      Black 1%,
+      Brown 5%,
+      #6e5a1c 0%,
+      #caa93d 20%,
+      #f4e28a 35%,
+      #b08d1a 55%,
+      #8c6f14 75%,
+      #e8d36c 100%,
+      Black 1%,
+      Brown 5%,
+    );
+  background-size:180% auto;
+
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+
+  /* Pressed-in illusion */
+  text-shadow:
+    -1px -1px 1px rgba(0,0,0,0.65),
+     1px  1px 1px rgba(255,255,255,0.2),
+     0 4px 8px rgba(0,0,0,0.8);
+
+  position:relative;
+  z-index:2;
+}
+
+/* ===============================
+   HOT-STAMP PRESS BURN
+   =============================== */
+.gold-deboss::before{
+  content:attr(data-text);
+  position:absolute;
+  inset:0;
+
+  color:transparent;
+  -webkit-text-stroke:1px rgba(0,0,0,0.35);
+
+  filter:blur(2px);
+  opacity:0.6;
+  z-index:-1;
+}
+
+/* ===============================
+   AGED / WORN GOLD PATCHES
+   =============================== */
+.gold-deboss::after{
+  content:"";
+  position:absolute;
+  inset:0;
+}
+
+.cover h1{
+  font-family:'ANTON',serif;
+  font-size:3rem;
+  color:#fff;
+  text-shadow:2px 2px 0 #400814,4px 4px 10px rgba(0,0,0,.6);
+}
+
+.cover p{
+  font-family:'Crimson Text',serif;
+  letter-spacing:2px;
+  color:#ffe5d4;
+  margin-top:10px;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{50%{opacity:.6}}
+.book.opened .cover{transform:rotateY(-180deg);pointer-events:none;}
+
+/* Pages */
+.page{
+  flex:1;
+  padding:40px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  cursor:pointer;
+  background:linear-gradient(145deg,#fff9f2,#f2e7d9);
+  box-shadow:inset 0 0 20px rgba(0,0,0,0.1);
+  transform-origin:left;
+  transition:transform 0.8s ease-in-out;
+  position:relative;
+  overflow:hidden;
+  margin-bottom: 2px;
+}
+.left{
+  border-right:1px solid #ddd;
+  text-align:center;
+}
+.right{
+  border-left: 1px solid #ddd;
+  text-align : justify ;
+}
+.page.right h1 {
+  color:#5a2c12;   /* ← CHANGE THIS */
+  text-align: center;
+  text-transform: uppercase;
+}
+/* Chapter & Text */
+.chapter{
+  font-family:'Playfair Display SC', serif;
+  font-size:2rem;
+  text-align:center;
+  margin-bottom:15px;
+  color:#5a2c12;
+}
+h2{font-family:'Crimson Text',serif;color:#4b2e1e;margin-bottom:15px;}
+p{font-size:1.1rem;color:#5c3a21;line-height:1.6;}
+
+/* Page No */
+.page-no{
+  font-size:2rem;
+  color:#bbb;
+  margin-top:10px;
+}
+
+/* Page curl effect */
+.page::after{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:60px;
+  height:100%;
+  background:linear-gradient(to left, rgba(0,0,0,0.15), transparent);
+  opacity:0;
+  transition:opacity 0.3s;
+}
+.page:hover::after{opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="book-container">
+  <div class="book" id="book">
+
+    <!-- Layers for depth -->
+    <div class="layer"></div>
+    <div class="layer"></div>
+    <div class="layer"></div>
+
+    <!-- Cover / Front Page -->
+    <div class="cover" onclick="openBook()">
+      <h1 class="gold-deboss" data-text="My Vintage Book">
+  My Vintage Book
+</h1>
+      <p>Click to open</p>
+    </div>
+
+    <!-- Left Page for Previous -->
+    <div class="page left" onclick="prevPage()">
+      <div class="page-no" id="leftPageNo"></div>
+      <div class="chapter" id="leftChapter"></div>
+      <div class="instruction"></div>
+    </div>
+
+    <!-- Right Page for Current Content -->
+    <div class="page right" onclick="nextPage()">
+      <h1 id="title"></h1>
+      <p id="text"></p>
+      <div class="instruction"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const pages=[
+  {chapter:"", title:"THE BEGINNING", text:"Some feelings arrive softly and then refuse to leave.I did not plan it.\n I did not search for it. It happened in the quiet spaces—between conversations, in pauses where your presence stayed even when your voice wasn’t there. Slowly, without asking, you became someone my heart began to recognize. And once it did, there was no unlearning it.\n\nThis book exists because I love you. Not loudly, not carelessly, but deeply. In the way thoughts return to you without effort. In the way your existence brings calm and longing at the same time. Loving you feels less like a moment and more like a steady truth I carry with me.\n\nEvery page ahead holds a part of that love—the tenderness I feel when I think of you, the admiration that grows quietly,"},
+  {chapter:"",title:"",text:"the warmth that settles in my chest whenever I imagine your smile. \n\n Love deserves honesty.And love, when it is real, does not ask to be believed—it simply exists."},
+  {chapter:"",title:"TABLE OF\nCONTENTES", text:
+    "Chapter 1: THE BEGINNING \n"+
+    "Chapter 2: WHY PAGES\n"+
+    "Chapter 3: THAT YEAR \n"+
+    "Chapter 4: OUR MEETINGS  \n"+
+    "Chapter 5: MY CONFESSION \n"+
+    "Chapter 6: QUITE LOVE  \n"+
+    "Chapter 7: SMALL MOMENTS \n"+
+    "Chapter 8: MY PROMISES  \n"+
+    "Chapter 9: OUR TOMORROW \n"+
+    "Chapter 10: ALWAYS YOURS \n"
+  },
+  {chapter:"CHAPTER O1", title:"WHY PAGES", text:"Because some feelings deserve permanence.\n\nA book holds what the heart is afraid to say out loud. Words spoken can fade, but words written remain, waiting patiently to be felt again. I chose a book because my love for you isn’t fleeting or momentary; it is something I wanted to give a place, a form, and a quiet home.\n\nA book can be opened slowly, revisited in silence, and understood at one’s own pace—just like love. Every page becomes a moment, every line a heartbeat. This is not just a gift; it is a part of me, preserved in words, so that whenever you open it, you find my feelings still there, unchanged, waiting for you."},
+  {chapter:"", title:"THAT YEAR", text:"This year didn’t pass like the others. It carried your presence through it, quietly changing its meaning. Months moved forward, days came and went, yet somewhere between ordinary moments, you became a constant thought. Not always loud, not always close, but always there, shaping the way the year felt to me.\n\nI remember how this year taught me to feel more deeply. Because of you, emotions found a gentler rhythm. Happiness felt warmer, silence felt less empty, and even difficult days carried a sense of comfort. Loving you became a part of how I experienced time itself.How my heart learned to slow down because of you.\n\nThere were moments when nothing special happened, yet everything felt full.Thinking of you while the world moved normally, smiling without reason, "},
+    {chapter:"CHPATER 02", title:"", text:"\n\nAs the year unfolded, my affection for you didn’t rush or fade. It grew steadily, patiently, like something meant to last. You became part of my reflections, my hopes, my quiet prayers for better days ahead.\n\nNow, as this year closes, I don’t measure it by achievements or losses. I measure it by the love it gave me the chance to feel. By you. \n\nI carry this year forward with gratitude and love, and with the quiet hope that whatever the next one brings, it carries you within it too."},
+  {chapter:"", title:"OUR MEETINGS", text:"Do you remember that scorching August afternoon? I was standing there under the relentless sun, umbrella in hand, my heart pounding with every passing second, wondering if it would finally be real — you and me, finally meeting after months of waiting. And then I saw you… riding past on your bike, the sun glinting off your hair, your eyes finding mine, and that little thing you did — oh, I can’t stop smiling thinking about it. You disappeared for a moment, and then came back, as if the world itself had decided to make room just for us.\n\nWhen we finally stood together, everything felt softer, brighter, alive in ways I didn’t know were possible. You bought me ice cream, and it wasn’t the sweetness that lingered in my mind—it was you. The way you touched my face so gently, like you were memorizing every detail, the playful punch on my back, the way our hands brushed, "},
+    {chapter:"CHPATER 03", title:"", text:"how you matched our hieghts—it all felt like magic. Every laugh we shared, every teasing smile, every little nudge made my heart race as if it had wings.\nI remember how you corrected my hair, and I swear, just that tiny gesture made me feel cared for in ways words can’t describe. How we talked, endlessly, like the world had disappeared around us, leaving only us, wrapped in our own little universe. And in that universe, I realized how much I had been waiting for you—not just your love, but you—your presence, your warmth, your laughter, your quirks, your everything.\n\n  Every touch, every glance, every smile we exchanged is etched in my heart forever. I didn’t just fall for you that day — I fell into a world where you exist, where every ordinary moment turns extraordinary just because you’re in it. And I want to keep falling, over and over, in every moment, with you."},
+  {chapter:"", title:"MY CONFESSION", text:"I never believed in love at first sight… until you happened. And even then, it wasn’t instant fireworks or a loud explosion. It was quiet. Subtle. Like the world had been waiting for you, waiting for me to notice. Slowly, I started seeing you everywhere — in every smile I imagined, in every song that played, in every thought that wouldn’t leave my mind.It surprised me. I didn’t plan to fall for you. But somewhere between laughter and silence, between your words and your presence, my heart surrendered. I realized that my happiest moments this year were not the big things — they were the small ones with you. The way you look when you talk, the way your eyes sparkle even when you’re serious, the way your laughter lingers in my ears long after.I fell for you, completely. Not because of perfection, not because of any movie-like magic, but because you’re real. Because you exist in a way that feels like home, yet thrilling, like discovering a new song I never want to end."},
+    {chapter:"CHPATER 04", title:"", text:" I love you — not as a word, not as a thought, but as a heartbeat, a pull, a constant that doesn’t need explanation.And today, I just wanted you to know — I fell for you. Every moment, every glance, every laugh, every silence with you has made me yours in ways I can’t fully explain. And I don’t want to. I just want you to feel it, know it, live it with me."},
+  {chapter:"", title:"QUITE LOVE", text:"Love with you never needed an entrance. It arrived without sound, like evening light slipping through a half-open window. One moment, life was ordinary — and then, quietly, you were everywhere. In my thoughts, in my pauses, in the calm that settled inside me when your name crossed my mind.\n\nThis kind of love doesn’t rush. It walks beside me, unhurried, patient. It exists in glances held a second longer, in silences that feel full, in the way my heart slows down when I imagine you near. With you, love feels like certainty without explanation, warmth without fire.\n\nI love you in ways that don’t ask to be noticed. In remembering the way you smile before you laugh. In the instinct to protect your peace. In the comfort of knowing that even without words, you understand me."},
+   {chapter:"CHPATER 05", title:"", text:"Being with you feels like coming home to myself.\n\nOur love lives in small, sacred moments — fingers brushing, breaths shared, time forgetting itself around us. It is not dramatic, yet it is deep. Not loud, yet unshakable.\n\nThis is quiet love.\n\nThe kind that stays long after the world grows silent.\n\n I don't know how to say but I love you so much,so,so,so much,more than anything."}, 
+  {chapter:"", title:"SMALL MOMENTS", text:"Some mornings arrive gently, as if the world itself knows to move slowly. There’s a warmth that settles before the day fully begins — not from the sun, but from the thought of you. A single gesture from you, something so small it could be missed by anyone else, shifts the rhythm of my heart. Suddenly, the day feels kinder. More alive. Like it has been waiting for that feeling to wake up.\n\nLove shows itself in unexpected ways. In the quiet happiness that fills empty rooms. In the way even stillness feels joyful. There are moments when I catch myself smiling, almost dancing through ordinary spaces, as if an unseen melody is guiding me. Bollywood makes it look dramatic, but in real life, it’s softer — a happiness that blooms quietly and refuses to leave.\n\nAs hours pass, your presence doesn’t fade; it settles deeper. It becomes a steady undercurrent,flowing"},
+    {chapter:"CHPATER 06", title:"", text:"beneath everything I do. There’s comfort in knowing that somewhere, you exist with the same warmth, the same affection. Loving you feels instinctive, like something my heart learned long before I understood it.\n\nWhen night falls, the world dims, but the feeling remains. Thoughts slow, breaths soften, and the mind drifts into places where love doesn’t need words. Dreams arrive gently, carrying familiar emotions — closeness, safety, belonging. You are there without effort, as if you’ve always been meant to be.\n\nAnd by the time light begins to return, there is already a quiet smile waiting — unannounced, unforced — ready to begin again."},
+  {chapter:"", title:"MY PROMISE", text:"I promise you this — quietly, gently, just between us. Not in front of the world, not with big words, but in the way my heart already leans toward you. I promise to choose you in the smallest moments. In ordinary days, in slow evenings, in silences that feel peaceful instead of empty. I promise to hold your hand the way one holds something precious — carefully, tenderly.\n\nWe are still young, still becoming, still learning how love grows. I don’t know every road the future will take us on, and I don’t want to speak promises that feel too heavy for where we are now. But I do know this — wherever I am learning, loving, and becoming, you are already there with me.\n\nI promise to be gentle with your heart. To listen not just to your words, but to the spaces between them. To make room for your smiles, your quiet"},
+    {chapter:"CHPATER 07", title:"", text:"days, your worries, and your dreams — just as they are. To love you without trying to shape you into anything else.\n\nI promise a love that doesn’t rush. One that stays soft. One that grows slowly, naturally, like something meant to last. To laugh with you, to walk beside you, to be present — especially when life feels tender.\n\nAnd if time allows, if life is kind, if the days keep unfolding the way they are now, I hope for a future where this love simply continues. Familiar hands. Shared calm. A quiet knowing that we kept choosing each other.\n\nSo I promise this — as long as I am here, as long as love finds its way back to you in me, I will return. Again and again. Because loving you feels like home, and some feelings don’t need to be promised — they already exist."},
+  {chapter:"", title:"OUR TOMORROW", text:"I don’t imagine our tomorrow as something dramatic or perfectly written. I imagine it the way love when no one is watching — soft light through windows, a quiet smile, a moment that feels small but means everything. A tomorrow that doesn’t rush us, that lets love breathe.\n\nOur tomorrow feels like waking up with a calm heart. Like knowing someone is there, even before the day begins. It’s in the comfort of familiar presence, in the ease of being understood without having to explain. Love doesn’t announce itself there — it simply stays.\n\nI imagine us growing slowly, the way seasons change without asking permission. Becoming better versions of ourselves, not for the world, but for each other. Learning, unlearning, laughing at our own imperfections, and finding beauty in how imperfectly human we are."},
+   {chapter:"", title:"", text:"There are moments in my imagination where happiness feels so light that it turns ordinary rooms into movie scenes. A smile that lingers. A heart that dances quietly. The kind of joy where you don’t need music, yet everything feels like a song. Bollywood calls it romance; I call it being in love with you.\nOur tomorrow holds shared pauses — standing close, doing nothing, yet feeling full. It holds comfort in silence, warmth in glances, and a gentle certainty that love doesn’t need constant reassurance. It grows simply because it wants to.\n\nI don’t promise that tomorrow will always be easy. But I imagine us choosing patience over pride, softness over noise, understanding over distance. I imagine us finding our way back to each other, even on days when life feels heavy.And if the future is kind — if time allows love to keep unfolding — I see a life where this feeling doesn’t fade. Where love matures,deepens, and settles "}, 
+   {chapter:"CHPATER 08", title:"", text:"into something steady and true.\n\n A tomorrow where holding on feels natural, not forced.Our tomorrow isn’t about forever written in bold letters. It’s about every gentle day that quietly adds up. About choosing each other again, without needing to say it out loud.\n\nAnd in that quiet choosing, \nI find hope. In that hope, I find us."},
+  {chapter:"", title:"FROM MY HEART", text:"My heart learned your name\nthe way night learns the moon — \nquietly,\nwithout asking permission.\n\nYou are the silence that sings,\nthe calm that trembles,\na thousand small momentsliving inside a single breath.\n\nI carry you in fragments —a smile becomes a day,\na glance turns into a lifetime,\nyour presence,\nlarger than absence itself.\nIf love is a fire,\nyou are its gentle burn —\nnever loud,never gone.\nAnd if words ever fail me,"},
+    {chapter:"CHPATER 09", title:"", text:"let this remain:\nevery part of mebelongs to the feeling of you.\nI love you.\n"+
+  "......................................................YOUR HUSBAND"
+    },
+  {chapter:"", title:"FUTURE US", text:"I imagine future us the way one imagines something they are sure of — not rushed, not uncertain, just quietly known. As if life itself has already decided that our paths don’t end midway. I see us together through the years, growing, changing, softening — yet always returning to the same feeling that first brought us close.\n\nIn this future, love hasn’t faded; it has settled. It lives in familiar hands, in shared glances, in the comfort of knowing where home is. I see us holding hands long after time has written itself on our skin, fingers still finding each other without thought. Even then, your presence feels like warmth — steady, reassuring, enough.\n\nThere are moments I fantasize about — simple and intimate. Quiet mornings where silence feels full. Evenings where we sit close, not speaking much, yet understanding everything. Love moves"},
+    {chapter:"", title:"", text:"slowly there, tenderly, the way it does when it is no longer afraid of time.\n\nI imagine us still playful, still teasing, still caught in those small battles of affection — who loves more, who misses more. I imagine laughter echoing softly through ordinary rooms, turning them into something cinematic, something timeless. The kind of happiness Bollywood tries to show, but never quite captures fully.\n\nAnd when life grows heavy, when days demand more than we expect, I see us choosing each other without question. Staying. Holding on gently. Letting love do what it has always done — keep us close, even when words fall short.\nI even imagine the far future — not with fear, but with calm. Two hearts that have lived fully, still side by side. Hands resting together, eyes knowing, love unspoken yet complete. And beyond that moment, beyond breath and time,"},
+    {chapter:"CHPATER 10", title:"", text:" I imagine us still finding each other — in memories, in quiet spaces, in whatever comes next.Because some loves don’t end.\nThey only change form.And future us — in this life and beyond — \nfeels certain in the way that recognizes the truth"},
+  {chapter:"", title:"ALWAYS YOURS", text:"I wanna be yours,\nnot in loud words, not in fleeting fire,\nbut in quiet mornings,\nwhen the world is slow and soft.\n\nI wanna be yours,\nin the brush of your hand against mine,\nin glances that linger,\nin laughter that spills without reason.\n\nI wanna be yours,\nin ordinary days that feel extraordinary\nbecause you are in them,\nbecause love lives quietly between us.\n\nI wanna be yours,\nwhen the sun dips low,\nwhen nights stretch endlessly,\nand dreams hold only your face"},
+  {chapter:"", title:"",text:".\n\nI wanna be yours,\nthrough every tomorrow,\nthrough every gentle storm,\nthrough every heartbeat that finds me thinking of you.\n\nI wanna be yours,\nalways,\nin ways words cannot hold,\nin ways the heart already knows."},
+  {chapter:"",title:"HAPPY \n NEW YEAR", text:"As this year ends and a new one begins, I want you to know how much you mean to me. Every smile, every laugh, every little moment with you has made this year unforgettable. You’ve turned ordinary days into memories I’ll cherish forever.\n\nIn the coming year, I promise more laughter, more love, more quiet moments just for us. I can’t wait to create new memories, hold your hand through every sunrise, and dream with you under every star.\n\nHere’s to us — our love, our little world, and the countless moments waiting for us. \n Happy New Year, Mrs Sarita Kumbhakar Pathak my heart, my home, my everything."}
+];
+
+let index=0, open=false;
+
+function openBook(){
+  if(open) return;
+  document.getElementById("book").classList.add("opened");
+  open=true;
+  render();
+}
+
+function render(){
+  const pageData = pages[index];
+  document.getElementById("title").innerText = pageData.title;
+  document.getElementById("text").innerHTML = pageData.text.replace(/\n/g,"<br>"); // Multi-line support
+
+  if(index > 0){
+    document.getElementById("leftChapter").innerText = pages[index-1].chapter;
+    document.getElementById("leftPageNo").innerText = String(index).padStart(2,"0");
+  } else {
+    document.getElementById("leftChapter").innerText = "";
+    document.getElementById("leftPageNo").innerText = "";
+  }
+}
+
+function nextPage(){
+  if(!open) return;
+  if(index < pages.length-1){ index++; render();}
+}
+
+function prevPage(){
+  if(!open) return;
+  if(index>0){ index--; render();}
+  else{
+    document.getElementById("book").classList.remove("opened"); 
+    open=false;
+  }
+}
+
+render();
+</script>
+
+</body>
+</html>
